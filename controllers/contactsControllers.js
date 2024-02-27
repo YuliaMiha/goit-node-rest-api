@@ -1,6 +1,6 @@
-import Contact from "../services/contactsServices.js";
-import { ctrlWrapper } from "../decorators/ctrlWrapper.js";
-import { HttpError } from "../helpers/HttpError.js";
+import Contact from "../models/contact.js";
+import ctrlWrapper from "../decorators/ctrlWrapper.js";
+import HttpError from "../helpers/HttpError.js";
 
 const getAllContacts = async (req, res, next) => {
   const { _id: owner } = req.user;
@@ -62,10 +62,23 @@ const deleteContact = async (req, res, next) => {
   res.json({ message: "contact deleted" });
 };
 
+const updateStatusContact = async (req, res, next) => {
+  const { contactId } = req.params;
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
+  if (!result) {
+    throw HttpError(404);
+  }
+
+  res.json(result);
+};
+
 export default {
   getAllContacts: ctrlWrapper(getAllContacts),
   getOneContact: ctrlWrapper(getOneContact),
   createContact: ctrlWrapper(createContact),
   updateContact: ctrlWrapper(updateContact),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
   deleteContact: ctrlWrapper(deleteContact),
 };

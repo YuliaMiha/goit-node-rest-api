@@ -5,7 +5,7 @@ import authController from "../controllers/authControllers.js";
 import validateBody from "../helpers/validateBody.js";
 
 import { signupSchema, signinSchema } from "../schemas/userSchemas.js";
-import authtenticate from "../middlewares/authtenticate.js";
+import authtenticate from "../middlewares/authenticate.js";
 
 const authRouter = express.Router();
 
